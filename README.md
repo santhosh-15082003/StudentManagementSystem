@@ -46,65 +46,6 @@ The Student Management System provides an end-to-end solution for educational in
 - MySQL Server 8.0
 
 ---
-
-## System Architecture
-
-```
-Student Management System/
-|-- backend/
-|   |-- pom.xml
-|   `-- src/
-|       `-- main/
-|           |-- java/com/student/
-|           |   |-- StudentManagementApplication.java
-|           |   |-- config/
-|           |   |   `-- CorsConfig.java
-|           |   |-- controller/
-|           |   |   `-- StudentController.java
-|           |   |-- dto/
-|           |   |   |-- ApiResponse.java
-|           |   |   `-- StudentRequestDTO.java
-|           |   |-- exception/
-|           |   |   |-- DuplicateResourceException.java
-|           |   |   |-- GlobalExceptionHandler.java
-|           |   |   `-- ResourceNotFoundException.java
-|           |   |-- model/
-|           |   |   `-- Student.java
-|           |   |-- repository/
-|           |   |   `-- StudentRepository.java
-|           |   `-- service/
-|           |       |-- StudentService.java
-|           |       `-- impl/
-|           |           `-- StudentServiceImpl.java
-|           `-- resources/
-|               `-- application.properties
-|-- database/
-|   `-- schema.sql
-|-- frontend/
-|   |-- index.html
-|   |-- package.json
-|   |-- postcss.config.js
-|   |-- tailwind.config.js
-|   |-- vite.config.js
-|   `-- src/
-|       |-- App.jsx
-|       |-- index.css
-|       |-- main.jsx
-|       |-- api/
-|       |   `-- studentApi.js
-|       `-- components/
-|           |-- DeleteConfirmModal.jsx
-|           |-- Navbar.jsx
-|           |-- StatsCards.jsx
-|           |-- StudentDetailsModal.jsx
-|           |-- StudentModal.jsx
-|           |-- StudentTable.jsx
-|           `-- Toast.jsx
-`-- README.md
-```
-
----
-
 ## Database Design
 
 Database Name: `student_management`
@@ -125,26 +66,7 @@ Table Name: `students`
 | admission_date | DATE | NOT NULL | Date student was enrolled |
 | created_at | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Record creation timestamp |
 
-### Indexes
-- `idx_students_email`: B-Tree index on `email` column for fast duplicate checks and login queries.
-- `idx_students_full_name`: B-Tree index on `full_name` for optimized searching.
-- `idx_students_course`: B-Tree index on `course` for filter performance.
-- `idx_students_department`: B-Tree index on `department`.
-
 ---
-
-## Backend API Specification
-
-All responses use a standardized JSON wrapper:
-
-```json
-{
-  "success": true,
-  "message": "Status description",
-  "data": {},
-  "timestamp": "2026-11-02T10:00:00"
-}
-```
 
 ### Endpoints
 
@@ -156,46 +78,6 @@ All responses use a standardized JSON wrapper:
 | PUT | /api/students/{id} | Update an existing student record | StudentRequestDTO (JSON) | 200 OK / 400 Bad Request / 404 Not Found / 409 Conflict |
 | DELETE | /api/students/{id} | Delete a student record | None | 200 OK / 404 Not Found |
 | GET | /api/students/courses | Retrieve distinct course list for filter dropdown | None | 200 OK |
-
-### Sample JSON Request Body (POST / PUT)
-
-```json
-{
-  "fullName": "Aarav Sharma",
-  "email": "aarav.sharma@example.com",
-  "phone": "9876543210",
-  "gender": "Male",
-  "dateOfBirth": "2003-05-14",
-  "course": "Computer Science",
-  "department": "Computer Engineering",
-  "admissionDate": "2022-08-01"
-}
-```
-
-### Sample Duplicate Email Error Response (409 Conflict)
-
-```json
-{
-  "success": false,
-  "message": "A student with email 'aarav.sharma@example.com' already exists.",
-  "timestamp": "2026-11-02T10:15:00"
-}
-```
-
-### Sample Validation Error Response (400 Bad Request)
-
-```json
-{
-  "success": false,
-  "message": "Validation failed for input data",
-  "errors": {
-    "email": "Please provide a valid email address",
-    "fullName": "Full name must be between 2 and 100 characters",
-    "dateOfBirth": "Date of birth must be in the past"
-  },
-  "timestamp": "2026-11-02T10:15:00"
-}
-```
 
 ---
 
